@@ -33,17 +33,38 @@ struct prajitura
     baza_dreptunghi forma_d;
     baza_patrat forma_p;
     baza_triunghi forma_t;
+
+    float gem;
+    float frisca;
 }prajituri[100];
 
 int main() {
-    std::cin >> a >>  b;
-    std::cout << a + b;
+    cin.getline(command,10);
 
-                gem_total += gem;
-                frisca_total += frisca;
+    bool stop = strcmp(command, "STOP");
+    int i = 0;
+    float frisca_total = 0;
+    float gem_total = 0;
 
-                cout<< "Cantitate de gem folosita pentru prajitura aceasta: " << gem << " g" << endl;
-                cout<< "Cantitate de frisca folosita pentru prajitura aceasta: " << frisca << " g" << endl;
+    while (stop){
+        if (!strcmp(command, "ADD")){
+            char baza[20];
+            cin.getline(baza, 20);
+            i++;
+            if (baza[0] == 'c'){
+                cout << "Introdu raza si inaltimea" << endl;
+                prajituri[i].cerc = true;
+                cin>>prajituri[i].forma_c.raza;
+                cin>>prajituri[i].forma_c.inaltime;
+
+                prajituri[i].gem = 2 * pi * prajituri[i].forma_c.raza * prajituri[i].forma_c.raza * prajituri[i].forma_c.inaltime;
+                prajituri[i].frisca = 2 * pi * prajituri[i].forma_c.raza * prajituri[i].forma_c.inaltime;
+
+                gem_total += prajituri[i].gem;
+                frisca_total += prajituri[i].frisca;
+
+                cout<< "Cantitate de gem folosita pentru prajitura aceasta: " << prajituri[i].gem<< " g" << endl;
+                cout<< "Cantitate de frisca folosita pentru prajitura aceasta: " << prajituri[i].frisca << " g" << endl;
 
 
             }
@@ -55,14 +76,14 @@ int main() {
                 cin>>prajituri[i].forma_d.latime;
                 cin>>prajituri[i].forma_d.inaltime;
 
-                int gem = 2 * prajituri[i].forma_d.lungime * prajituri[i].forma_d.latime * prajituri[i].forma_d.inaltime;
-                int frisca = 2 * (prajituri[i].forma_d.lungime + prajituri[i].forma_d.latime) * prajituri[i].forma_d.inaltime;
+                prajituri[i].gem = 2 * prajituri[i].forma_d.lungime * prajituri[i].forma_d.latime * prajituri[i].forma_d.inaltime;
+                prajituri[i].frisca = 2 * (prajituri[i].forma_d.lungime + prajituri[i].forma_d.latime) * prajituri[i].forma_d.inaltime;
 
-                gem_total += gem;
-                frisca_total += frisca;
+                gem_total += prajituri[i].gem ;
+                frisca_total += prajituri[i].frisca;
 
-                cout<< "Cantitate de gem folosita pentru prajitura aceasta: " << gem << " g" << endl;
-                cout<< "Cantitate de frisca folosita pentru prajitura aceasta: " << frisca << " g" << endl;
+                cout<< "Cantitate de gem folosita pentru prajitura aceasta: " <<prajituri[i].gem<< " g" << endl;
+                cout<< "Cantitate de frisca folosita pentru prajitura aceasta: " << prajituri[i].frisca << " g" << endl;
             }
             else if (baza[0] == 'p'){
                 cout << "Introdu latura si inaltimea" << endl;
@@ -71,14 +92,14 @@ int main() {
                 cin>>prajituri[i].forma_p.latura;
                 cin>>prajituri[i].forma_p.inaltime;
 
-                int gem = 2 * prajituri[i].forma_p.latura * prajituri[i].forma_p.latura * prajituri[i].forma_p.inaltime;
-                int frisca = 4 * prajituri[i].forma_p.latura * prajituri[i].forma_p.inaltime;
+                prajituri[i].gem  = 2 * prajituri[i].forma_p.latura * prajituri[i].forma_p.latura * prajituri[i].forma_p.inaltime;
+                prajituri[i].frisca = 4 * prajituri[i].forma_p.latura * prajituri[i].forma_p.inaltime;
 
-                gem_total += gem;
-                frisca_total += frisca;
+                gem_total += prajituri[i].gem ;
+                frisca_total += prajituri[i].frisca;
 
-                cout<< "Cantitate de gem folosita pentru prajitura aceasta: " << gem << " g" << endl;
-                cout<< "Cantitate de frisca folosita pentru prajitura aceasta: " << frisca << " g" << endl;
+                cout<< "Cantitate de gem folosita pentru prajitura aceasta: " << prajituri[i].gem << " g" << endl;
+                cout<< "Cantitate de frisca folosita pentru prajitura aceasta: " << prajituri[i].frisca << " g" << endl;
             }
             else{
                 cout << "Introdu cateta mare, cateta mica si inaltimea" << endl;
@@ -88,15 +109,15 @@ int main() {
                 cin>>prajituri[i].forma_t.cat_mica;
                 cin>>prajituri[i].forma_t.inaltime;
 
-                int gem = prajituri[i].forma_t.cat_mare * prajituri[i].forma_t.cat_mica * prajituri[i].forma_t.inaltime;
+                prajituri[i].gem  = prajituri[i].forma_t.cat_mare * prajituri[i].forma_t.cat_mica * prajituri[i].forma_t.inaltime;
                 float ipot = sqrt(prajituri[i].forma_t.cat_mare * prajituri[i].forma_t.cat_mare + prajituri[i].forma_t.cat_mica * prajituri[i].forma_t.cat_mica);
-                float frisca = (ipot + prajituri[i].forma_t.cat_mare + prajituri[i].forma_t.inaltime);
+                prajituri[i].frisca = (ipot + prajituri[i].forma_t.cat_mare + prajituri[i].forma_t.inaltime);
 
-                gem_total += gem;
-                frisca_total += frisca;
+                gem_total += prajituri[i].gem ;
+                frisca_total += prajituri[i].frisca;
 
-                cout<< "Cantitate de gem folosita pentru prajitura aceasta: " << gem << " g" << endl;
-                cout<< "Cantitate de frisca folosita pentru prajitura aceasta: " << frisca << " g" << endl;
+                cout<< "Cantitate de gem folosita pentru prajitura aceasta: " << prajituri[i].gem << " g" << endl;
+                cout<< "Cantitate de frisca folosita pentru prajitura aceasta: " << prajituri[i].frisca << " g" << endl;
 
 
             }
@@ -110,8 +131,14 @@ int main() {
 
         if (!strcmp(command, "REMOVE")){
             int x; cin>>x;
+
+            gem_total -= prajituri[x].gem;
+            frisca_total -= prajituri[x].frisca;
+
             for (int j = x; j < i; j++) prajituri[j] = prajituri[j+1];
             i--;
+
+
         }
 
         cin.getline(command, 10);
