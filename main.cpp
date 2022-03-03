@@ -1,164 +1,225 @@
 #include <iostream>
 #include <cstring>
-#include <cmath>
 using namespace std;
-char command[10];
-float pi = 3.14;
 
-class baza_cerc
-{
+class film{
+    char *denumire_film, *gen, *regizor;
+    double rating;
 public:
-    int raza, inaltime;
-
-    void citire_cerc(int &raza_c, int &inaltime_c){
-        cin>>raza_c;
-        cin>>inaltime_c;
+    //constructor
+    film(){
+        denumire_film = new char[50];
+        gen = new char[25];
+        regizor = new char[50];
+    };
+    //destructor
+    ~film(){
+        delete[] denumire_film;
+        delete[] gen;
+        delete[] regizor;
     }
-    void calcul_gem_frisca(int raza_c, int inaltime_c, float &gem, float &frisca){
-        gem = 2 * pi * raza_c * raza_c * inaltime_c;
-        frisca = 2 * pi * raza_c * inaltime_c;
 
-        cout<< "Cantitate de gem folosita pentru prajitura aceasta: " << gem<< " g" << endl;
-        cout<< "Cantitate de frisca folosita pentru prajitura aceasta: " << frisca << " g" << endl;
+    //constructor de copiere
+    void copy(film &film_nou){
+        strcpy(film_nou.denumire_film, denumire_film);
+        strcpy(film_nou.gen, gen);
+        strcpy(film_nou.regizor, regizor);
+        film_nou.rating = rating;
     }
+
+    //supraincarcare pe operatorul de atribuire
+    void operator=(film &film_nou){
+        delete film_nou.denumire_film; int size = strlen(denumire_film); film_nou.denumire_film = new char[size];
+        strcpy(film_nou.denumire_film, denumire_film);
+
+        delete film_nou.gen; size = strlen(gen); film_nou.gen = new char[size];
+        strcpy(film_nou.gen, gen);
+
+        delete film_nou.regizor; size = strlen(regizor); film_nou.regizor = new char[size];
+        strcpy(film_nou.regizor, regizor);
+
+        film_nou.rating = rating;
+    }
+
+    //supraincarcare pe operatorii specifici de comparare
+    bool operator==(film &film_nou){
+        if (rating == film_nou.rating) return true;
+        else return false;
+    }
+    bool operator<(film &film_nou){
+        if (rating < film_nou.rating) return true;
+        else return false;
+    }
+    bool operator<=(film &film_nou){
+        if (rating <= film_nou.rating) return true;
+        else return false;
+    }
+    bool operator>(film &film_nou){
+        if (rating > film_nou.rating) return true;
+        else return false;
+    }
+    bool operator>=(film &film_nou){
+        if (rating >= film_nou.rating) return true;
+        else return false;
+    }
+
+    //functii de modificare a informatiilor unui film
+    void setName(char *denumire){
+        delete[] denumire_film;
+        int size = strlen(denumire);
+        denumire_film = new char[size];
+        strcpy(denumire_film, denumire);
+    }
+    void setGen(char *gen_){
+        delete[] gen;
+        int size = strlen(gen_);
+        gen = new char[size];
+        strcpy(gen, gen_);
+    }
+    void setRegizor(char *regizor_){
+        delete[] regizor;
+        int size = strlen(regizor_);
+        regizor = new char[size];
+        strcpy(regizor, regizor_);
+    }
+    void setRating(double rating_){
+        rating = rating_;
+    }
+    void setAll(char *denumire, char *gen_, char *regizor_, double rating_){
+        int size = strlen(denumire);
+        denumire_film = new char[size];
+        strcpy(denumire_film, denumire);
+
+        size = strlen(gen_);
+        gen = new char[size];
+        strcpy(gen, gen_);
+
+        size = strlen(regizor_);
+        regizor = new char[size];
+        strcpy(regizor, regizor_);
+        rating = rating_;
+    }
+
+    //supraincarcarea pe operatorii de citire si afisare
+    friend istream &operator>>(istream &fin, film &film_);
+    friend ostream &operator<<(ostream &fout, film &film_);
 
 };
-class baza_dreptunghi
-{
-public:
-    int latime, lungime, inaltime;
 
-    void citire_drept(int &lungime_d, int &latime_d, int &inaltime_d){
-        cin>>lungime_d;
-        cin>>latime_d;
-        cin>>inaltime_d;
-    }
-    void calcul_gem_frisca(int lungime_d, int latime_d, int inaltime_d, float &gem, float &frisca){
-        gem = 2 * lungime_d * latime_d * inaltime_d;
-        frisca =  2 * (lungime_d + latime_d) * inaltime_d;
+istream &operator>>(istream &fin, film &film_){
+    cout<<"Introdu denumirea filmului: "<<endl; fin.getline(film_.denumire_film, 20);
+    cout<<"Introdu genul filmului: "<<endl; fin.getline(film_.gen, 20);
+    cout<<"Introdu numele regizorului: "<<endl; fin.getline(film_.regizor, 20);
+    cout<<"Introdu rating-ul filmului: "<<endl; fin>>film_.rating; cin.get();
+    return fin;
+}
+ostream &operator<<(ostream &fout, film &film_){
+    cout<<endl<<endl;
+    cout<<"denumirea filmului este: "; fout<<film_.denumire_film<<" "; cout<<endl;
+    cout<<"genul filmului este: "; fout<<film_.gen<<" "; cout<<endl;
+    cout<<"numele regizorului este: "; fout<<film_.regizor<<" "; cout<<endl;
+    cout<<"rating-ul filmului este: "; fout<<film_.rating<<" "; cout<<endl;
+    return fout;
+}
 
-        cout << "Cantitate de gem folosita pentru prajitura aceasta: " << gem<< " g" << endl;
-        cout << "Cantitate de frisca folosita pentru prajitura aceasta: " << frisca << " g" << endl;
-    }
-};
-class baza_patrat
-{
-public:
-    int latura, inaltime;
-
-    void citire_patrat(int &latura_p, int &inaltime_p){
-        cin>>latura_p>>inaltime_p;
-    }
-    void caclul_gem_frisca(int latura_p, int inaltime_p, float &gem, float &frisca){
-        gem =  2 * latura_p * latura_p * inaltime_p;
-        frisca = 4 * latura_p * inaltime_p;
-
-        cout<< "Cantitate de gem folosita pentru prajitura aceasta: " << gem<< " g" << endl;
-        cout<< "Cantitate de frisca folosita pentru prajitura aceasta: " << frisca << " g" << endl;
-    }
-};
-class baza_triunghi
-{
-public:
-    int cat_mica, cat_mare, inaltime;
-
-    void citire_tri(int &cat_mica_t, int &cat_mare_t, int &inaltime_t){
-        cin>>cat_mica_t>>cat_mare_t>>inaltime_t;
-    }
-    void calcul_gem_frisca(int cat_mica_t, int cat_mare_t, int inaltime_t, float &gem, float &frisca){
-        gem = cat_mare_t * cat_mica_t * inaltime_t;
-        float ipot = sqrt(cat_mare_t * cat_mare_t + cat_mica_t * cat_mica_t);
-        frisca = (ipot + cat_mare_t + inaltime_t);
-
-        cout<< "Cantitate de gem folosita pentru prajitura aceasta: " << gem<< " g" << endl;
-        cout<< "Cantitate de frisca folosita pentru prajitura aceasta: " << frisca << " g" << endl;
-    }
-};
-
-class prajitura
-{
-public:
-    baza_cerc forma_c;
-    baza_dreptunghi forma_d;
-    baza_patrat forma_p;
-    baza_triunghi forma_t;
-
-    float gem;
-    float frisca;
-}prajituri[100];
-
+film **filme;
 int main() {
-    cin.getline(command,10);
 
-    bool stop = strcmp(command, "STOP");
-    int i = 0;
-    float frisca_total = 0;
-    float gem_total = 0;
-
-    while (stop){
-        if (!strcmp(command, "ADD")){
-            char baza[20];
-            cin.getline(baza, 20);
-            i++;
-            if (baza[0] == 'c'){
-                cout << "Introdu raza si inaltimea" << endl;
-
-                prajituri[i].forma_c.citire_cerc(prajituri[i].forma_c.raza, prajituri[i].forma_c.inaltime);
-                prajituri[i].forma_c.calcul_gem_frisca(prajituri[i].forma_c.raza, prajituri[i].forma_c.inaltime, prajituri[i].gem, prajituri[i].frisca);
-
-                gem_total += prajituri[i].gem;
-                frisca_total += prajituri[i].frisca;
+    //citire filme de la tastatura
+    cout<<"Introdu numarul de filme: "; int n; cin>>n; cin.get(); cout<<endl;
+    for (int i = 1; i <= n; i++){
+        cout<<"Filmul "<<i<<endl;
+        filme[i] = new film;
+        cin>>*filme[i]; cout<<endl;
+    }
+    //citire comenzi
+    char comanda[10];
+    int final = 1;
+    cout<<"comenzi disponibile: modificare, stergere, sortare, comparare, afisare, stop"<<endl;
+    while (final){
+        cout<<"Introdu comanda:"; cin.getline(comanda,10);
+        //comanda de modificare
+        if (comanda[0] == 'm'){
+            cout<<"Alege filmul pe care doresti sa-l modifici:"<<endl; int nr_film; cin>>nr_film; cin.get(); cout<<endl;
+            cout<<"Alege ce vrei sa modifici la filmul "<<nr_film<<"(nume, gen, regizor, rating, tot): "; char modif[10]; cin.getline(modif,10); cout<<endl;
+            if (modif[0] == 'n'){ //modificarea numelui
+                cout<<"Introdu numele nou:"; char nume[50]; cin.getline(nume,50); cout<<endl;
+                filme[nr_film]->setName(nume);
             }
-            else if (baza[0] == 'd'){
-                cout << "Introdu lungimea, latimea si inaltimea" << endl;
-
-                prajituri[i].forma_d.citire_drept(prajituri[i].forma_d.lungime, prajituri[i].forma_d.latime, prajituri[i].forma_d.inaltime);
-                prajituri[i].forma_d.calcul_gem_frisca(prajituri[i].forma_d.lungime, prajituri[i].forma_d.latime, prajituri[i].forma_d.inaltime, prajituri[i].gem, prajituri[i].frisca);
-
-                gem_total += prajituri[i].gem ;
-                frisca_total += prajituri[i].frisca;
+            else if (modif[0] == 'g'){ //modificarea genului
+                cout<<"Introdu genul nou:"; char gen[30]; cin.getline(gen,30); cout<<endl;
+                filme[nr_film]->setGen(gen);
             }
-            else if (baza[0] == 'p'){
-                cout << "Introdu latura si inaltimea" << endl;
-
-                prajituri[i].forma_p.citire_patrat(prajituri[i].forma_p.latura,prajituri[i].forma_p.inaltime);
-                prajituri[i].forma_p.caclul_gem_frisca(prajituri[i].forma_p.latura, prajituri[i].forma_p.inaltime, prajituri[i].gem, prajituri[i].frisca);
-
-                gem_total += prajituri[i].gem ;
-                frisca_total += prajituri[i].frisca;
+            else if (modif[0] == 'r' and modif[1] == 'e'){ //modificarea regizorului
+                cout<<"Introdu numele regizorului nou:"; char regizor[50]; cin.getline(regizor,50); cout<<endl;
+                filme[nr_film]->setRegizor(regizor);
+            }
+            else if (modif[0] == 'r' and modif[1] == 'a'){ //modificarea rating-ului
+                cout<<"Introdu rating-ul nou:"; double rating; cin>>rating; cin.get(); cout<<endl;
+                filme[nr_film]->setRating(rating);
             }
             else{
-                cout << "Introdu cateta mare, cateta mica si inaltimea" << endl;
-
-                prajituri[i].forma_t.citire_tri(prajituri[i].forma_t.cat_mica, prajituri[i].forma_t.cat_mare, prajituri[i].forma_t.inaltime);
-                prajituri[i].forma_t.calcul_gem_frisca(prajituri[i].forma_t.cat_mica, prajituri[i].forma_t.cat_mare, prajituri[i].forma_t.inaltime, prajituri[i].gem, prajituri[i].frisca);
-
-                gem_total += prajituri[i].gem ;
-                frisca_total += prajituri[i].frisca;
+                char nume[50], gen[30], regizor[50]; double rating; //modificarea intregului film
+                cout<<"Introdu denumirea noua a filmului: "<<endl; cin.getline(nume, 50);
+                cout<<"Introdu genul nou al filmului: "<<endl; cin.getline(gen, 30);
+                cout<<"Introdu numele nou al regizorului: "<<endl; cin.getline(regizor, 50);
+                cout<<"Introdu rating-ul nou al filmului: "<<endl; cin>>rating; cin.get();
+                filme[nr_film]->setAll(nume, gen, regizor, rating);
+                cout<<endl;
             }
         }
-
-        if (!strcmp(command, "TOTAL")){
-            cout<< "Cantitatea de gem totala: " << gem_total << " g" << endl;
-            cout<< "Cantitatea de frisca total: " << frisca_total << " g" << endl;
-
+            //comanda de stergere
+        else if (comanda[0] == 's' and comanda[1] == 't' and comanda[2] == 'e'){
+            cout<<"Introdu filmul pe care vrei sa-l stergi: "; int nr_film; cin>>nr_film; cin.get(); cout<<endl;
+            for (int i = nr_film; i < n; i++) filme[i] = filme[i+1];
+            n--;
         }
-
-        if (!strcmp(command, "REMOVE")){
-            int x; cin>>x;
-
-            gem_total -= prajituri[x].gem;
-            frisca_total -= prajituri[x].frisca;
-
-            for (int j = x; j < i; j++) prajituri[j] = prajituri[j+1];
-            i--;
+            //comanda de sortare
+        else if (comanda[0] == 's' and comanda[1] == 'o' and comanda[2] == 'r'){
+            cout<<"Alege tipul de sortare(crescator sau descrescator):"; char sort[10]; cin.getline(sort,10); cout<<endl;
+            if (sort[0] == 'c'){ //sortare crescatoare
+                for (int i = 1; i <= n; i++){
+                    for (int j = i+1; j <= n; j++){
+                        if (*filme[i] > *filme[j]){
+                            film *aux; aux = new film;
+                            aux = filme[i]; filme[i] = filme[j]; filme[j] = aux;
+                        }
+                    }
+                }
+            }
+            else{ //soratre descrescatoare
+                for (int i = 1; i <= n; i++){
+                    for (int j = i+1; j <= n; j++){
+                        if (*filme[i] < *filme[j]){
+                            film *aux; aux = new film;
+                            aux = filme[i]; filme[i] = filme[j]; filme[j] = aux;
+                        }
+                    }
+                }
+            }
         }
-
-        cin.getline(command, 10);
-        stop = strcmp(command, "STOP");
+            //comanda de comparare
+        else if (comanda[0] == 'c'){
+            cout<<"Alege filmele pe care sa le compari: "; int film1, film2; cin>>film1>>film2; cin.get(); cout<<endl;
+            if (*filme[film1] > *filme[film2]) cout<<"Filmul "<<film1<<" are rating mai mare pe imdb"<<endl;
+            else if (*filme[film1] < *filme[film2]) cout<<"Filmul "<<film2<<" are rating mai mare pe imdb"<<endl;
+            else cout<<"Filmele au rating egal pe imdb";
+        }
+            //comanda de afisare
+        else if (comanda[0] == 'a'){
+            cout<<"Alege daca vrei sa afisezi toate filmele sau doar unul singur: "; char aleg[10]; cin.getline(aleg,10); cout<<endl;
+            if (aleg[0] == 't'){ //afisare a tuturor filmelor
+                for (int i = 1; i <= n; i++) cout<<*filme[i]<<endl;
+            }
+            else{ //afisare a unui singur film
+                cout<<"Alege filmul pe care sa-l afisezi: "; int nr; cin>>nr; cin.get(); cout<<endl;
+                cout<<*filme[nr]<<endl;
+            }
+        }
+        final = strcmp(comanda, "stop");
+        cout<<endl<<"comenzi disponibile: modificare, stergere, sortare, comparare, afisare, stop"<<endl;
     }
-
-
-
+    for (int i = 1; i <= n; i++) delete filme[i];
+    delete[] filme;
     return 0;
 }
