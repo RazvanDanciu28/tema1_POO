@@ -29,13 +29,19 @@ public:
 
     //supraincarcare pe operatorul de atribuire
     void operator=(film &film_nou){
-        delete film_nou.denumire_film; int size = strlen(denumire_film); film_nou.denumire_film = new char[size];
+        delete film_nou.denumire_film;
+        int size = strlen(denumire_film);
+        film_nou.denumire_film = new char[size];
         strcpy(film_nou.denumire_film, denumire_film);
 
-        delete film_nou.gen; size = strlen(gen); film_nou.gen = new char[size];
+        delete film_nou.gen;
+        size = strlen(gen);
+        film_nou.gen = new char[size];
         strcpy(film_nou.gen, gen);
 
-        delete film_nou.regizor; size = strlen(regizor); film_nou.regizor = new char[size];
+        delete film_nou.regizor;
+        size = strlen(regizor);
+        film_nou.regizor = new char[size];
         strcpy(film_nou.regizor, regizor);
 
         film_nou.rating = rating;
@@ -122,7 +128,7 @@ ostream &operator<<(ostream &fout, film &film_){
     return fout;
 }
 
-film **filme;
+film *filme[20];
 int main() {
 
     //citire filme de la tastatura
@@ -219,7 +225,5 @@ int main() {
         final = strcmp(comanda, "stop");
         cout<<endl<<"comenzi disponibile: modificare, stergere, sortare, comparare, afisare, stop"<<endl;
     }
-    for (int i = 1; i <= n; i++) delete filme[i];
-    delete[] filme;
     return 0;
 }
