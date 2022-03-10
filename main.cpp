@@ -21,9 +21,21 @@ public:
 
     //constructor de copiere
     void copy(film &film_nou){
+        delete film_nou.denumire_film;
+        int size = strlen(denumire_film);
+        film_nou.denumire_film = new char[size];
         strcpy(film_nou.denumire_film, denumire_film);
+
+        delete film_nou.gen;
+        size = strlen(gen);
+        film_nou.gen = new char[size];
         strcpy(film_nou.gen, gen);
+
+        delete film_nou.regizor;
+        size = strlen(regizor);
+        film_nou.regizor = new char[size];
         strcpy(film_nou.regizor, regizor);
+
         film_nou.rating = rating;
     }
 
@@ -146,23 +158,23 @@ int main() {
         cout<<"Introdu comanda:"; cin.getline(comanda,10);
         //comanda de modificare
         if (comanda[0] == 'm'){
-            cout<<"Alege filmul pe care doresti sa-l modifici:"<<endl; int nr_film; cin>>nr_film; cin.get(); cout<<endl;
-            cout<<"Alege ce vrei sa modifici la filmul "<<nr_film<<"(nume, gen, regizor, rating, tot): "; char modif[10]; cin.getline(modif,10); cout<<endl;
+            cout<<"Alege filmul pe care doresti sa-l modifici:"<<endl; int *nr_film = new int; cin>>*nr_film; cin.get(); cout<<endl;
+            cout<<"Alege ce vrei sa modifici la filmul "<<*nr_film<<"(nume, gen, regizor, rating, tot): "; char *modif = new char[10]; cin.getline(modif,10); cout<<endl;
             if (modif[0] == 'n'){ //modificarea numelui
                 cout<<"Introdu numele nou:"; char nume[50]; cin.getline(nume,50); cout<<endl;
-                filme[nr_film]->setName(nume);
+                filme[*nr_film]->setName(nume);
             }
             else if (modif[0] == 'g'){ //modificarea genului
                 cout<<"Introdu genul nou:"; char gen[30]; cin.getline(gen,30); cout<<endl;
-                filme[nr_film]->setGen(gen);
+                filme[*nr_film]->setGen(gen);
             }
             else if (modif[0] == 'r' and modif[1] == 'e'){ //modificarea regizorului
                 cout<<"Introdu numele regizorului nou:"; char regizor[50]; cin.getline(regizor,50); cout<<endl;
-                filme[nr_film]->setRegizor(regizor);
+                filme[*nr_film]->setRegizor(regizor);
             }
             else if (modif[0] == 'r' and modif[1] == 'a'){ //modificarea rating-ului
                 cout<<"Introdu rating-ul nou:"; double rating; cin>>rating; cin.get(); cout<<endl;
-                filme[nr_film]->setRating(rating);
+                filme[*nr_film]->setRating(rating);
             }
             else{
                 char nume[50], gen[30], regizor[50]; double rating; //modificarea intregului film
@@ -170,15 +182,19 @@ int main() {
                 cout<<"Introdu genul nou al filmului: "<<endl; cin.getline(gen, 30);
                 cout<<"Introdu numele nou al regizorului: "<<endl; cin.getline(regizor, 50);
                 cout<<"Introdu rating-ul nou al filmului: "<<endl; cin>>rating; cin.get();
-                filme[nr_film]->setAll(nume, gen, regizor, rating);
+                filme[*nr_film]->setAll(nume, gen, regizor, rating);
                 cout<<endl;
             }
+            delete nr_film;
+            delete[] modif;
         }
             //comanda de stergere
         else if (comanda[0] == 's' and comanda[1] == 't' and comanda[2] == 'e'){
             cout<<"Introdu filmul pe care vrei sa-l stergi: "; int nr_film; cin>>nr_film; cin.get(); cout<<endl;
             for (int i = nr_film; i < n; i++) filme[i] = filme[i+1];
+            //delete filme[n];
             n--;
+
         }
             //comanda de sortare
         else if (comanda[0] == 's' and comanda[1] == 'o' and comanda[2] == 'r'){
@@ -225,5 +241,11 @@ int main() {
         final = strcmp(comanda, "stop");
         cout<<endl<<"comenzi disponibile: modificare, stergere, sortare, comparare, afisare, stop"<<endl;
     }
+
+
+    for (int i = 1; i <= n; i++){
+        delete filme[i];
+    }
+    //delete[] filme;
     return 0;
 }
