@@ -20,7 +20,7 @@ public:
     }
 
     //constructor de copiere
-    void copy(film &film_nou){
+    film(film &film_nou){
         delete film_nou.denumire_film;
         int size = strlen(denumire_film);
         film_nou.denumire_film = new char[size];
@@ -151,11 +151,11 @@ int main() {
         cin>>*filme[i]; cout<<endl;
     }
     //citire comenzi
-    char comanda[10];
+    char comanda[15];
     int final = 1;
     cout<<"comenzi disponibile: modificare, stergere, sortare, comparare, afisare, stop"<<endl;
     while (final){
-        cout<<"Introdu comanda:"; cin.getline(comanda,10);
+        cout<<"Introdu comanda:"; cin.getline(comanda,15);
         //comanda de modificare
         if (comanda[0] == 'm'){
             cout<<"Alege filmul pe care doresti sa-l modifici:"<<endl; int *nr_film = new int; cin>>*nr_film; cin.get(); cout<<endl;
