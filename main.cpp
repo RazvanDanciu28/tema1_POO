@@ -246,6 +246,5 @@ int main() {
     for (int i = 1; i <= n; i++){
         delete filme[i];
     }
-    //delete[] filme;
     return 0;
 }
