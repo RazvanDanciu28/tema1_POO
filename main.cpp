@@ -9,6 +9,7 @@ public:
     //constructor
     film(){
         denumire_film = new char[50];
+
         gen = new char[25];
         regizor = new char[50];
     };
@@ -38,6 +39,20 @@ public:
 
         film_nou.rating = rating;
     }
+
+    film(const char nume[], const char gen_[], const char reg[], double rating_) {
+        denumire_film = new char[50];
+        strcpy(denumire_film, nume);
+
+        gen = new char[25];
+        strcpy(gen, gen_);
+
+        regizor = new char[50];
+        strcpy(regizor, reg);
+
+        rating = rating_;
+    }
+
 
     //supraincarcare pe operatorul de atribuire
     void operator=(film &film_nou){
@@ -131,7 +146,7 @@ istream &operator>>(istream &fin, film &film_){
     cout<<"Introdu rating-ul filmului: "<<endl; fin>>film_.rating; cin.get();
     return fin;
 }
-ostream &operator<<(ostream &fout, film &film_){
+ostream &operator<<(ostream &fout,  const film &film_){
     cout<<endl<<endl;
     cout<<"denumirea filmului este: "; fout<<film_.denumire_film<<" "; cout<<endl;
     cout<<"genul filmului este: "; fout<<film_.gen<<" "; cout<<endl;
@@ -142,6 +157,10 @@ ostream &operator<<(ostream &fout, film &film_){
 
 film *filme[20];
 int main() {
+
+    const film test("nume", "gen", "reg", 5.02);
+    cout<<test;
+    return 0;
 
     //citire filme de la tastatura
     cout<<"Introdu numarul de filme: "; int n; cin>>n; cin.get(); cout<<endl;
