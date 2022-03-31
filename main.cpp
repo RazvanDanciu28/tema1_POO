@@ -133,6 +133,11 @@ public:
         rating = rating_;
     }
 
+    char *getDenumireFilm() const;
+
+    char *getGen() const;
+
+
     //supraincarcarea pe operatorii de citire si afisare
     friend istream &operator>>(istream &fin, film &film_);
     friend ostream &operator<<(ostream &fout, const film &film_);
@@ -153,6 +158,14 @@ ostream &operator<<(ostream &fout,  const film &film_){
     cout<<"numele regizorului este: "; fout<<film_.regizor<<" "; cout<<endl;
     cout<<"rating-ul filmului este: "; fout<<film_.rating<<" "; cout<<endl;
     return fout;
+}
+
+char *film::getDenumireFilm() const {
+    return denumire_film;
+}
+
+char *film::getGen() const {
+    return gen;
 }
 
 film *filme[20];
