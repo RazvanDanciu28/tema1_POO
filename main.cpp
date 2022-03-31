@@ -135,7 +135,7 @@ public:
 
     //supraincarcarea pe operatorii de citire si afisare
     friend istream &operator>>(istream &fin, film &film_);
-    friend ostream &operator<<(ostream &fout, film &film_);
+    friend ostream &operator<<(ostream &fout, const film &film_);
 
 };
 
